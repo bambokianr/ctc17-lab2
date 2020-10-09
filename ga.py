@@ -3,8 +3,6 @@ import random
 import struct
 
 ### ALGORTIMO GENETICO
-
-# Agente para encontrar o menor caminho
 class GeneticAlgorithm():
     def __init__(self, function, population_size, crossover_prob, mutation_prob):
         self.function = function
@@ -40,7 +38,6 @@ class GeneticAlgorithm():
         print('Generation: ', self.generation)
         print('Best global chromosome point: ', self.best_chromosome[0])
         print('Best global chromosome function value: ', self.best_chromosome[1])
-        #print('Best global chromosome', self.best_chromosome)
 
     def selectBestChromo(self):
         best_chromo_temp = []
@@ -72,14 +69,9 @@ class GeneticAlgorithm():
     def fitnessCalculation(self):
         self.fitness = []
         self.function_value = []
-        #print(len(self.population))
         for i in range(len(self.population)):
-            #print(self.population[i][0])
             self.function_value.append(self.function(self.population[i][0], self.population[i][1]))
-            #self.fitness.append(self.function(self.population[i][0], self.population[i][1]))
 
-        #print(self.fitness)
-        #print(self.function_value)
         sum_fitness = sum(self.function_value)
         for i in range(len(self.population)):
             if sum_fitness == 0:
@@ -92,7 +84,6 @@ class GeneticAlgorithm():
         selection_number = random.random()
         selection_temp = 0
 
-        #print(self.population)
         for i in range(len(self.population)):
             selection_temp += self.fitness[i]
             if selection_number < selection_temp:
@@ -112,16 +103,6 @@ class GeneticAlgorithm():
             self.population.pop(parent_2_pos)
             self.fitnessCalculation()
 
-            #self.population.pop(parent_2_pos)
-
-            #while (crossover_bool[parent_1_pos]):
-            #    parent_1_pos = self.parentSelection()
-            
-            #while (parent_1_pos == parent_2_pos):
-                #print(parent_1_pos, parent_2_pos)
-            #    parent_2_pos = self.parentSelection()
-            #print('alou')
-
             if (random.random() < self.crossover_prob):
                 parent_1_x_hex = hex(self.floatToBits(parent_1[0]))
                 parent_1_y_hex = hex(self.floatToBits(parent_1[1]))
@@ -134,10 +115,6 @@ class GeneticAlgorithm():
                 son_2_x_hex = ''
                 son_2_y_hex = ''
 
-                #print(parent_1_x_hex)
-                #print(parent_1_y_hex)
-                #print(parent_2_x_hex)
-                #print(parent_2_y_hex)
                 if (len(parent_1_x_hex) == 11):
                     son_1_x_hex += '-'
                     parent_1_x_hex = parent_1_x_hex.replace('-', '')
@@ -162,11 +139,6 @@ class GeneticAlgorithm():
                         son_1_y_hex += parent_2_y_hex[i]
                         son_2_x_hex += parent_1_x_hex[i]
                         son_2_y_hex += parent_1_y_hex[i]
-                #print(crosspoint)
-                #print(son_1_x_hex)
-                #print(son_1_y_hex)
-                #print(son_2_x_hex)
-                #print(son_2_y_hex)
 
                 son_1_x = self.bitsToFloat(int(son_1_x_hex, 0))
                 son_1_y = self.bitsToFloat(int(son_1_y_hex, 0))
@@ -178,23 +150,12 @@ class GeneticAlgorithm():
                 son_1.append(son_1_y)
                 son_2.append(son_2_x)
                 son_2.append(son_2_y)
-                #print(son_1)
-                #print(son_2)
 
                 self.new_population.append(son_1)
                 self.new_population.append(son_2)
-
-                #print(len(self.population))
-
             else:
                 self.new_population.append(parent_1)
                 self.new_population.append(parent_2)
-        
-            #print(self.population)
-            #self.population.pop(parent_1_pos)
-            #self.population.pop(parent_2_pos)
-            #self.fitness.pop(parent_1_pos)
-            #self.fitness.pop(parent_2_pos)
     
         self.population = self.new_population
 
@@ -204,7 +165,4 @@ class GeneticAlgorithm():
                 chromosome = []
                 chromosome.append(random.uniform(-self.domain, self.domain))
                 chromosome.append(random.uniform(-self.domain, self.domain))
-                self.population.append(chromosome)
-
-    def offspring(self):
-        pass
+                self.population[i] = chromosome
